@@ -2,7 +2,7 @@ from ultralytics import YOLO
 import numpy
 import cv2 as cv
 
-model = YOLO("best50-1.pt")
+model = YOLO("best250.pt")
 cap = cv.VideoCapture(0)
 
 while cap.isOpened():
