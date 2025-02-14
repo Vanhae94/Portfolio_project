@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Object Detection</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/cam.css') }}"
+    />
+  </head>
+  <body>
+    <h1>실시간 스트리밍:</h1>
+
+    <h2>Width Stream</h2>
+    <img src="{{ url_for('main.standard_width') }}" alt="Width Stream" />
+
+    <h2>Height Stream</h2>
+    <img src="{{ url_for('main.standard_height') }}" alt="Height Stream" />
+
+    <a href="{{ url_for('main.home') }}">home으로 이동</a>
+    <a href="{{ url_for('main.break_cam') }}">파손 cam 이동</a>
+    <a href="{{ url_for('main.standard_cam') }}">규격 cam 이동</a>
+    <a href="{{ url_for('main.dashboard') }}">대시보드로 이동</a>
+    <a href="{{ url_for('main.standard_setting') }}">규격 설정 이동</a>
+
+    <script src="{{ url_for('static', filename='js/cam_control.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/cam_reload.js') }}"></script>
+  </body>
+</html>

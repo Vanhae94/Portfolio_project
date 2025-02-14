@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Standard Setting</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/home.css') }}"
+    />
+    <script>
+      function updateVideoFeed() {
+        let selection = document.getElementById("width_height").value;
+        let video1 = document.getElementById("video_feed");
+        let video2 = document.getElementById("video_feed_1");
+
+        if (selection === "width") {
+          video1.style.display = "block";
+          video2.style.display = "none";
+        } else if (selection === "height") {
+          video1.style.display = "none";
+          video2.style.display = "block";
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        updateVideoFeed(); // 초기 선택값 반영
+        document
+          .getElementById("width_height")
+          .addEventListener("change", updateVideoFeed);
+      });
+    </script>
+  </head>
+  <body>
+    <h1>Standard Size Calculation</h1>
+    <img
+      id="video_feed"
+      src="{{ url_for('main.video_feed') }}"
+      alt="Live Stream"
+    />
+    <img
+      id="video_feed_1"
+      src="{{ url_for('main.video_feed_1') }}"
+      alt="Live Stream"
+    />
+
+    <form method="POST">
+      <label for="standard_paper_size_cm">규격 사이즈(cm):</label>
+      <input type="number" name="standard_paper_size_cm" required /><br /><br />
+
+      <label for="width_height">선택(넓이 / 높이):</label>
+      <select name="width_height" id="width_height">
+        <option value="width">넓이</option>
+        <option value="height">높이</option>
+      </select>
+      <br /><br />
+
+      <label for="tolerance_cm">오차범위(cm):</label>
+      <input type="number" name="tolerance_cm" value="0" required /><br /><br />
+
+      <button type="submit">등록 / 수정</button>
+    </form>
+
+    {% if pixel_to_cm %}
+    <h3>Calculated PIXEL_TO_CM: {{ pixel_to_cm }}</h3>
+    {% elif error %}
+    <p style="color: red">{{ error }}</p>
+    {% endif %}
+
+    <a href="{{ url_for('main.home') }}">home으로 이동</a>
+    <a href="{{ url_for('main.break_cam') }}">파손 cam 이동</a>
+    <a href="{{ url_for('main.standard_cam') }}">규격 cam 이동</a>
+    <a href="{{ url_for('main.dashboard') }}">대시보드로 이동</a>
+    <a href="{{ url_for('main.standard_setting') }}">규격 설정 이동</a>
+  </body>
+</html>

@@ -1,0 +1,118 @@
+/* 기본 스타일 */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2 {
+  color: #2c3e50;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 30px;
+}
+
+h2 {
+  margin-top: 30px;
+  text-align: center;
+}
+
+/* 폼 스타일 */
+form {
+  text-align: center;
+  margin-top: 20px;
+}
+
+label {
+  font-size: 16px;
+  margin: 10px;
+  color: #2c3e50;
+}
+
+input[type="date"] {
+  padding: 8px;
+  font-size: 14px;
+  margin-right: 10px;
+  border: 2px solid #3498db;
+  border-radius: 5px;
+  outline: none;
+}
+
+input[type="date"]:focus {
+  border-color: #2980b9;
+}
+
+/* 선택된 날짜 범위 스타일 */
+h3 {
+  text-align: center;
+  font-size: 18px;
+  color: #2980b9;
+  margin-top: 20px;
+}
+
+/* 버튼 스타일 */
+button {
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #2980b9;
+}
+
+/* 이미지 스타일 */
+img {
+  display: block;
+  margin: 20px auto;
+  max-width: 100%;
+  height: auto;
+}
+
+/* 링크 스타일 */
+a {
+  display: inline-block;
+  margin: 20px;
+  font-size: 18px;
+  color: #3498db;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #2980b9;
+  text-decoration: underline;
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+
+  form {
+    margin-top: 10px;
+  }
+
+  input[type="date"],
+  button {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+}

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>대시보드</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/dashboard.css') }}"
+      href="{{ url_for('static', filename='css/btn.css') }}"
+    />
+  </head>
+  <body>
+    <h1>데이터 대시보드</h1>
+
+    {% if error_message %}
+    <h3>{{ error_message }}</h3>
+    {% endif %}
+
+    <!-- 날짜 범위 선택 폼 -->
+    <form method="GET" action="{{ url_for('main.dashboard') }}">
+      <label for="start_date">시작 날짜:</label>
+      <input type="date" id="start_date" name="start_date" required />
+      <label for="end_date">끝 날짜:</label>
+      <input type="date" id="end_date" name="end_date" required />
+      <button type="submit">조회</button>
+    </form>
+
+    {% if start_date and end_date %}
+    <h3>선택된 날짜 범위: {{ start_date }} ~ {{ end_date }}</h3>
+    {% endif %}
+
+    <!-- 그래프들 (데이터가 있을 때만 표시) -->
+    {% if pie_chart %}
+    <div>
+      <h2>규격 불량 & 파손 불량 & 정상 비율</h2>
+      <img
+        src="{{ url_for('static', filename='images/pie_chart.png') }}"
+        alt="파이 차트"
+      />
+    </div>
+    {% endif %} {% if bar_chart %}
+    <div>
+      <h2>규격 불량 & 파손 불량 & 정상 개수</h2>
+      <img
+        src="{{ url_for('static', filename='images/bar_chart.png') }}"
+        alt="막대 차트"
+      />
+    </div>
+    {% endif %} {% if daily_bar_chart %}
+    <div>
+      <h2>기간별 감지 개수</h2>
+      <img
+        src="{{ url_for('static', filename='images/daily_bar_chart.png') }}"
+        alt="막대 차트"
+      />
+    </div>
+    {% endif %} {% if daily_line_chart %}
+    <div>
+      <h2>기간별 감지 추이</h2>
+      <img
+        src="{{ url_for('static', filename='images/daily_line_chart.png') }}"
+        alt="선 차트"
+      />
+    </div>
+    {% endif %}
+    <!-- 페이지 이동 링크 -->
+    <div class="btn">
+      <a href="{{ url_for('main.home') }}">home으로 이동</a>
+      <a href="{{ url_for('main.break_cam') }}">파손 cam 이동</a>
+      <a href="{{ url_for('main.standard_cam') }}">규격 cam 이동</a>
+      <a href="{{ url_for('main.dashboard') }}">대시보드로 이동</a>
+      <a href="{{ url_for('main.standard_setting') }}">규격 설정 이동</a>
+    </div>
+  </body>
+</html>
