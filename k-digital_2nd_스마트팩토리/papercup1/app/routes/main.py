@@ -161,7 +161,7 @@ def standard_height():
     standard_paper_size_cm = paper_size_data.standard_paper_size_cm
     pixel_to_cm = paper_size_data.pixel_to_cm
     logging.info("🎥 Height Video Feed 스트리밍 시작")
-    logging.info(f"📏 Width 기준값 - Tolerance: {tolerance_cm}, Standard Size: {standard_paper_size_cm}, Pixel to CM: {pixel_to_cm}")
+    logging.info(f"📏 Height 기준값 - Tolerance: {tolerance_cm}, Standard Size: {standard_paper_size_cm}, Pixel to CM: {pixel_to_cm}")
     return Response(standard_frame_height(tolerance_cm, standard_paper_size_cm, pixel_to_cm),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
@@ -181,13 +181,12 @@ def standard_setting():
         pixel_to_cm = width_height_calculation(standard_paper_size_cm, width_height)
 
         if pixel_to_cm is not None:
-            # 기존에 동일한 width_height가 있는지 확인
+            # 기존에 동일한 width_height가 있는지 확인W
             existing_size = paper_size.query.filter_by(width_height=width_height).first()
-
-            if existing_size:
+            if existing_size is not None:
                 # 값이 존재하면 업데이트
                 existing_size.tolerance_cm = tolerance_cm
-                existing_size.standard_size_cm = standard_paper_size_cm
+                existing_size.standard_paper_size_cm = standard_paper_size_cm
                 existing_size.pixel_to_cm = pixel_to_cm
                 db.session.commit()
             else:

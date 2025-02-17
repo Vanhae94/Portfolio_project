@@ -6,13 +6,18 @@ from ultralytics import YOLO
 # YOLO 모델 로드
 model = YOLO('./app/models/best250.pt')  # 학습된 YOLO 모델
 
-# 실시간 카메라 캡처
-cap = cv2.VideoCapture(0)  # 웹캠 연결
+# # 실시간 카메라 캡처
+# cap = cv2.VideoCapture(0)  # 웹캠 연결
+# cap1 = cv2.VideoCapture(1)
 
 def width_height_calculation(standard_size_cm, width_height):
+    if width_height == "width" :
+        cap = cv2.VideoCapture(0)
+    elif width_height == "height" :
+        cap = cv2.VideoCapture(1)
+
     max_size = 0  
     PIXEL_TO_CM = None  
-    cap = cv2.VideoCapture(0)
     
     while cap.isOpened():
         ret, frame = cap.read()

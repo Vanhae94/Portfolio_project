@@ -8,8 +8,8 @@ import logging
 app = create_app()
 
 # 카메라 설정
-cap_0 = cv2.VideoCapture(1)  # 너비 측정용 카메라
-cap_1 = cv2.VideoCapture(0)  # 높이 측정용 카메라
+cap_0 = cv2.VideoCapture(0)  # 너비 측정용 카메라
+cap_1 = cv2.VideoCapture(1)  # 높이 측정용 카메라
 
 # 해상도 설정
 for cap in [cap_0, cap_1]:
@@ -77,6 +77,7 @@ def standard_frame_height(TOLERANCE_CM, standard_size_cm, PIXEL_TO_CM):
         for result in results_1[0].boxes:
             x1, y1, x2, y2 = map(int, result.xyxy[0].tolist())
             height = y2 - y1
+            print(height)
             real_size_cm = height * PIXEL_TO_CM
             
             if standard_size_cm - TOLERANCE_CM <= real_size_cm <= standard_size_cm + TOLERANCE_CM:

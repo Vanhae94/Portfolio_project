@@ -18,7 +18,7 @@ cap_1.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
 cap_1.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 
 # Yolo 모델 로드
-model = YOLO('./app/models/best.pt')
+model = YOLO('./app/models/best250.pt')
 
 def standard_frame():
     last_saved_time = datetime.now()  # 마지막 저장 시간을 추적
