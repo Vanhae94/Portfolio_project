@@ -1,1 +1,1 @@
-# Portfolio_project
+# CNN 기반 스마트팩토리 프로젝트
