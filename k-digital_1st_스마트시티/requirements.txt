@@ -1,0 +1,7 @@
+Flask==2.3.2
+mysqlclient==2.2.0
+python-dotenv==1.0.0
+flask-sqlalchemy==3.1.1
+pymysq==1.0.3
+Flask-Bcrypt==1.0.0
+uitralytics==8.0.0
