@@ -68,5 +68,5 @@ mos_weather_data = mos_weather.drop(['종합모기지수','지점','모기예보
 mos_weather_lable = mos_weather['모기예보 단계'].copy()
 
 ###################### 2025년도 예측 파트 ######################## 총 184일
-from fbprophet import Prophet
+
 

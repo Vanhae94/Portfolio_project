@@ -8,14 +8,14 @@ from sklearn.model_selection import train_test_split
 ################## 데이터 전처리 파트 #################
 
 # 폰트 설정
-font_path = "H2GTRM.TTF"
+font_path = "./ml_data_project/H2GTRM.TTF"
 font_name=font_manager.FontProperties(fname=font_path).get_name()
 rc('font', family=font_name)
 
-mos = pd.read_csv("./code/data/모기지수.csv" ,encoding="cp949")
-rain = pd.read_csv("./code/data/(일별)서울강수량.csv", encoding="cp949")
-hum = pd.read_csv("./code/data/(일별)서울시습도.csv", encoding="cp949")
-tem = pd.read_csv("./code/data/(일별)서울기온분석.csv", encoding="cp949")
+mos = pd.read_csv("./ml_data_project/code/data/모기지수.csv" ,encoding="cp949")
+rain = pd.read_csv("./ml_data_project/code/data/(일별)서울강수량.csv", encoding="cp949")
+hum = pd.read_csv("./ml_data_project/code/data/(일별)서울시습도.csv", encoding="cp949")
+tem = pd.read_csv("./ml_data_project/code/data/(일별)서울기온분석.csv", encoding="cp949")
 
 # 종합 모기지수 (수부지 주거지 공원의 합)
 mos['종합모기지수'] = mos['모기지수(수변부)'] + mos['모기지수(주거지)'] + mos['모기지수(공원)']
@@ -122,6 +122,10 @@ print(f"베스트 모델의 점수:{accuracy:.2f}")
 # 기후와 모기지수 분석에서 특성의 중요도 뽑기
 feature_importances = gbc_model.feature_importances_
 
+# 폰트 설정
+import matplotlib.font_manager as fm
+plt.rcParams['font.family'] = 'Malgun Gothic'
+
 # 중요도 시각화
 plt.figure(figsize=(10,6))
 plt.barh(mos_weather_data.columns, feature_importances,color='skyblue')
@@ -129,5 +133,4 @@ plt.xlabel('Feature Importance')
 plt.title('Feature Importances in Gradient Boosting Model')
 plt.gca().invert_yaxis()
 plt.show()
-
 
