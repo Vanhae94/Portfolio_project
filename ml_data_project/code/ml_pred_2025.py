@@ -8,14 +8,14 @@ from sklearn.model_selection import train_test_split
 ################## 데이터 전처리 파트 #################
 
 # 폰트 설정
-font_path = "H2GTRM.TTF"
+font_path = "./ml_data_project/H2GTRM.TTF"
 font_name=font_manager.FontProperties(fname=font_path).get_name()
 rc('font', family=font_name)
 
-mos = pd.read_csv("./code/data/모기지수.csv" ,encoding="cp949")
-rain = pd.read_csv("./code/data/(일별)서울강수량.csv", encoding="cp949")
-hum = pd.read_csv("./code/data/(일별)서울시습도.csv", encoding="cp949")
-tem = pd.read_csv("./code/data/(일별)서울기온분석.csv", encoding="cp949")
+mos = pd.read_csv("./ml_data_project/code/data/모기지수.csv" ,encoding="cp949")
+rain = pd.read_csv("./ml_data_project/code/data/(일별)서울강수량.csv", encoding="cp949")
+hum = pd.read_csv("./ml_data_project/code/data/(일별)서울시습도.csv", encoding="cp949")
+tem = pd.read_csv("./ml_data_project/code/data/(일별)서울기온분석.csv", encoding="cp949")
 
 # 종합 모기지수 (수부지 주거지 공원의 합)
 mos['종합모기지수'] = mos['모기지수(수변부)'] + mos['모기지수(주거지)'] + mos['모기지수(공원)']
@@ -68,5 +68,7 @@ mos_weather_data = mos_weather.drop(['종합모기지수','지점','모기예보
 mos_weather_lable = mos_weather['모기예보 단계'].copy()
 
 ###################### 2025년도 예측 파트 ######################## 총 184일
+from statsmodels.tsa.statespace.sarimax import SARIMAX
 
+ts = mos_weather_data[]
 

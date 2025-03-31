@@ -132,5 +132,12 @@ plt.barh(mos_weather_data.columns, feature_importances,color='skyblue')
 plt.xlabel('Feature Importance')
 plt.title('Feature Importances in Gradient Boosting Model')
 plt.gca().invert_yaxis()
-plt.show()
 
+
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+
+cm = confusion_matrix(y_test, y_pred)
+disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=[1, 2, 3, 4])
+disp.plot(cmap='Blues')
+plt.title("모기예보 단계 예측")
+plt.show()
