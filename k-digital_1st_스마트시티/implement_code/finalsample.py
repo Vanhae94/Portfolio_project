@@ -7,12 +7,12 @@ from sort.sort import Sort  # SORT 알고리즘 사용
 model = YOLO("bestyolo.pt")  # 학습된 가중치 파일 경로로 변경
 
 # 영상 파일 로드
-video_path = r"D:\cctv_project\video\KakaoTalk_20250121_120102804.mp4"  # 입력 영상 파일 경로
+video_path = r"CCTV_군중_밀집도_영상_생성.mp4"  # 입력 영상 파일 경로
 cap = cv2.VideoCapture(video_path)
-output_path = "시연"  # 출력 영상 파일 경로
+output_path = "CCTV_군중_밀집도_영상_생성1.mp4"  # 출력 영상 파일 경로
 
 # 영상 저장 설정
-fourcc = cv2.VideoWriter_fourcc(*'XVID')
+fourcc = cv2.VideoWriter_fourcc(*'mp4v')
 fps = int(cap.get(cv2.CAP_PROP_FPS))
 frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -29,7 +29,7 @@ selected_area_set = False
 locked_area = None  # 확정된 영역 저장
 
 # 밀집도 임계값
-density_threshold = 5  # 경고를 표시할 밀집도 임계값
+density_threshold = 10  # 경고를 표시할 밀집도 임계값
 
 # 히트맵 생성 함수 (사용자 지정 구역 내에서만 생성)
 def generate_limited_heatmap(image, tracks, x1, y1, x2, y2, radius=50, intensity=1):
@@ -62,6 +62,12 @@ def select_area(event, x, y, flags, param):
         end_point = (x, y)
         selected_area_set = True
         locked_area = (start_point, end_point)  # 확정된 영역 저장
+
+    elif event == cv2.EVENT_RBUTTONDOWN:  # 우클릭으로 영역 초기화
+        start_point = None
+        end_point = None
+        selected_area_set = False
+        locked_area = None
 
 # OpenCV 창에 마우스 콜백 연결
 cv2.namedWindow("Select Area")
@@ -115,27 +121,29 @@ while cap.isOpened():
         region_density = np.sum(heatmap[y1_area:y2_area, x1_area:x2_area])
         object_count_in_area = 0
 
+        # 히트맵과 원본 프레임 결합 (히트맵이 있는 부분만 합성하여 파란색 배경 방지)
+        overlay = frame.copy()
+        mask = heatmap > 0.01  # 히트맵 값이 있는 영역만 마스크 생성
+        overlay[mask] = cv2.addWeighted(frame[mask], 0.6, colored_heatmap[mask], 0.4, 0)
+        
+        # 객체 및 정보 표시 (투명도 문제 해결을 위해 overlay 위에 직접 그리기)
         for track in tracks:
             x1_obj, y1_obj, x2_obj, y2_obj, track_id = track.astype(int)
             center_x, center_y = (x1_obj + x2_obj) // 2, (y1_obj + y2_obj) // 2
-
+            
             if x1_area <= center_x <= x2_area and y1_area <= center_y <= y2_area:
-                object_count_in_area += 1
-                cv2.rectangle(colored_heatmap, (x1_obj, y1_obj), (x2_obj, y2_obj), (0, 255, 0), 2)
-
-        # 경고 메시지 조건 수정
+                 object_count_in_area += 1
+                 cv2.rectangle(overlay, (x1_obj, y1_obj), (x2_obj, y2_obj), (0, 255, 0), 2)
+                 
+        # 경고 메시지 및 객체 수 표시
         if object_count_in_area > density_threshold:
-            cv2.rectangle(colored_heatmap, (x1_area, y1_area), (x2_area, y2_area), (0, 0, 255), 2)
-            cv2.putText(colored_heatmap, "Warning: High Density", (x1_area + 5, y1_area - 10),
+            cv2.rectangle(overlay, (x1_area, y1_area), (x2_area, y2_area), (0, 0, 255), 2)
+            cv2.putText(overlay, "Warning: High Density", (x1_area + 5, y1_area - 10),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
 
-        # 객체 수 정보 표시
-        cv2.putText(colored_heatmap, f"Objects: {object_count_in_area}", (x1_area + 5, y1_area - 40),
+        cv2.putText(overlay, f"Objects: {object_count_in_area}", (x1_area + 5, y1_area - 40),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 255), 2)
-
-        # 히트맵과 원본 프레임 결합
-        overlay = cv2.addWeighted(frame, 0.6, colored_heatmap, 0.4, 0)
-
+                    
         # 선택된 영역 표시
         cv2.rectangle(overlay, (x1_area, y1_area), (x2_area, y2_area), (255, 0, 0), 2)
 
